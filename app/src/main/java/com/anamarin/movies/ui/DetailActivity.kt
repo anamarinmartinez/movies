@@ -1,10 +1,7 @@
 package com.anamarin.movies.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
-import com.anamarin.movies.R
+import androidx.appcompat.app.AppCompatActivity
 import com.anamarin.movies.databinding.ActivityDetailBinding
 import com.anamarin.movies.model.Movie
 
@@ -17,34 +14,19 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        ActivityDetailBinding.inflate(layoutInflater).run {
+            setContentView(root)
 
-        intent.parcelable<Movie>(MOVIE)?.run {
-            val background = backdropPath ?: posterPath
-            binding.movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780$background")
+            val movie = intent.parcelable<Movie>(MOVIE) ?: throw IllegalStateException()
+            val background = movie.backdropPath ?: movie.posterPath
 
-            binding.movieDetailSummary.text = overview
+            movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780$background")
 
-            binding.movieDetailToolbar.title = title
+            movieDetailSummary.text = movie.overview
 
-            binding.movieDetailInfo.text = buildSpannedString {
+            movieDetailToolbar.title = movie.title
 
-                bold { append("Original language: ") }
-                appendLine(originalLanguage)
-
-                bold { append("Original title: ") }
-                appendLine(originalTitle)
-
-                bold { append("Release date: ") }
-                appendLine(releaseDate)
-
-                bold { append("Popularity: ") }
-                appendLine(popularity.toString())
-
-                bold { append("Vote average: ") }
-                appendLine(voteAverage.toString())
-            }
+            movieDetailInfo.setMovie(movie)
         }
     }
 }

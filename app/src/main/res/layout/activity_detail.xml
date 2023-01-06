@@ -59,14 +59,14 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:text="Lorem ipsum" />
 
-            <TextView
+            <com.anamarin.movies.ui.MovieDetailInfoView
                 android:id="@+id/movie_detail_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorSurface"
+                android:padding="16dp"
                 android:lineSpacingMultiplier="1.5"
-                android:padding="@dimen/margin_medium"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:background="?attr/colorSurface"
                 tools:text="Lorem ipsum" />
 
         </LinearLayout>

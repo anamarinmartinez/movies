@@ -2,6 +2,7 @@ package com.anamarin.movies.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.anamarin.movies.databinding.ActivityMainBinding
@@ -22,13 +23,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.recyclerMovies.adapter = adapter
+        with(ActivityMainBinding.inflate(layoutInflater)) {
+            setContentView(root)
+            recyclerMovies.adapter = adapter
 
-        lifecycleScope.launch {
-            adapter.submitList(moviesRepository.findPopularMovies().results)
+            lifecycleScope.launch {
+                progress.visibility = View.VISIBLE
+                adapter.submitList(moviesRepository.findPopularMovies().results)
+                progress.visibility = View.GONE
+            }
         }
-
     }
 }

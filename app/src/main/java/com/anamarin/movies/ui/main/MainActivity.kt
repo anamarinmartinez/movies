@@ -1,4 +1,4 @@
-package com.anamarin.movies.ui
+package com.anamarin.movies.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.anamarin.movies.databinding.ActivityMainBinding
 import com.anamarin.movies.model.MoviesRepository
+import com.anamarin.movies.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

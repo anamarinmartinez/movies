@@ -1,9 +1,11 @@
-package com.anamarin.movies.ui
+package com.anamarin.movies.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.anamarin.movies.databinding.ActivityDetailBinding
 import com.anamarin.movies.model.Movie
+import com.anamarin.movies.ui.common.loadUrl
+import com.anamarin.movies.ui.common.parcelable
 
 class DetailActivity : AppCompatActivity() {
 

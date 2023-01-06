@@ -1,4 +1,4 @@
-package com.anamarin.movies.ui
+package com.anamarin.movies.ui.main
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anamarin.movies.R
 import com.anamarin.movies.databinding.ViewMovieBinding
 import com.anamarin.movies.model.Movie
+import com.anamarin.movies.ui.common.basicDiffUtil
+import com.anamarin.movies.ui.common.inflate
+import com.anamarin.movies.ui.common.loadUrl
 
 class MoviesAdapter(private val listener: (Movie) -> Unit) :
     ListAdapter<Movie, MoviesAdapter.ViewHolder>(basicDiffUtil { old, new -> old.id == new.id }) {

@@ -1,4 +1,4 @@
-package com.anamarin.movies.ui
+package com.anamarin.movies.ui.common
 
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT

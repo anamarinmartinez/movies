@@ -1,4 +1,4 @@
-package com.anamarin.movies.ui
+package com.anamarin.movies.ui.detail
 
 import android.content.Context
 import android.util.AttributeSet

@@ -5,30 +5,35 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anamarin.movies.databinding.ActivityDetailBinding
 import com.anamarin.movies.model.Movie
 import com.anamarin.movies.ui.common.loadUrl
-import com.anamarin.movies.ui.common.parcelable
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailPresenter.View {
 
     companion object {
         const val MOVIE = "DetailActivity:Movie"
     }
 
+    private val presenter = DetailPresenter()
+    private lateinit var binding: ActivityDetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ActivityDetailBinding.inflate(layoutInflater).run {
-            setContentView(root)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-            val movie = intent.parcelable<Movie>(MOVIE) ?: throw IllegalStateException()
-            val background = movie.backdropPath ?: movie.posterPath
+        val movie: Movie = requireNotNull(intent.getParcelableExtra(MOVIE))
+        presenter.onCreate(this, movie)
+    }
 
-            movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780$background")
+    override fun updateUi(movie: Movie) = with(binding) {
+        movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
+        movieDetailSummary.text = movie.overview
+        movieDetailToolbar.title = movie.title
+        movieDetailInfo.setMovie(movie)
+    }
 
-            movieDetailSummary.text = movie.overview
-
-            movieDetailToolbar.title = movie.title
-
-            movieDetailInfo.setMovie(movie)
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 }

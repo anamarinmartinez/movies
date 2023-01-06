@@ -2,53 +2,41 @@ package com.anamarin.movies.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.isVisible
 import com.anamarin.movies.databinding.ActivityMainBinding
 import com.anamarin.movies.model.Movie
 import com.anamarin.movies.model.MoviesRepository
 import com.anamarin.movies.ui.detail.DetailActivity
 
-class MainActivity : AppCompatActivity(), MainPresenter.View {
+class MainActivity : AppCompatActivity() {
 
-    private val presenter by lazy {
-        MainPresenter(MoviesRepository(this), lifecycleScope)
-    }
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(MoviesRepository(this)) }
 
     private lateinit var binding: ActivityMainBinding
 
-    private val adapter = MoviesAdapter { presenter.onMovieClicked(it) }
+    private val adapter = MoviesAdapter { viewModel.onMovieClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        presenter.onCreate(this@MainActivity)
         binding.recyclerMovies.adapter = adapter
+
+        viewModel.state.observe(this, ::updateUI)
     }
 
-    override fun showProgress() {
-        binding.progress.visibility = View.VISIBLE
+    private fun updateUI(state: MainViewModel.UiState) {
+        binding.progress.isVisible = state.loading
+        state.movies?.let { adapter.submitList(it) }
+        state.navigateTo?.let(::navigateTo)
     }
 
-    override fun hideProgress() {
-        binding.progress.visibility = View.GONE
-    }
-
-    override fun updateData(movies: List<Movie>) {
-        adapter.submitList(movies)
-    }
-
-    override fun navigateTo(movie: Movie) {
+    private fun navigateTo(movie: Movie) {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DetailActivity.MOVIE, movie)
         startActivity(intent)
-    }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
     }
 }

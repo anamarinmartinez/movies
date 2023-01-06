@@ -48,6 +48,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
 
+    //Arch
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
     //Location service
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
